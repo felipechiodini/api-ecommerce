@@ -46,13 +46,7 @@ model.deleteCoupon = (req) => {
             if(err)
                 reject(err)
 
-            let result
-            if(rows.affectedRows > 0 )
-                result = {code: 200, message: 'Cupom excluido com sucesso!'}
-            else 
-                result = {code: 200, message: 'Nenhum cupom encontrado'}
-
-            resolve(result)
+            resolve(rows)
         })
     })
 }
