@@ -8,6 +8,13 @@ router.get('/cupon', (req, res) => {
     })
 })
 
+router.put('/cupon', (req, res) => {
+    console.log(req.body)
+    model.saveCoupon(req).then(result => {
+        res.json(result)
+    })
+})
+
 router.post('/cupon/:id', (req, res) => {
     model.editCoupon(req).then(result => {
         res.json(result)

@@ -1,6 +1,8 @@
 var connection = require('../db-connection')
 
-const listCoupon = (req) => {
+const model = {}
+
+model.listCoupon = (req) => {
     return new Promise((resolve, reject) => {
         connection.query('SELECT id, active, name, code, discount FROM coupon', (err, rows, fields) => {
             if(err)
@@ -10,26 +12,33 @@ const listCoupon = (req) => {
     })
 }
 
-const editCoupon = (req) => {
-    let sql = "UPDATE coupon SET  WHERE id = " + req.params.id
+model.saveCoupon = (req) => {
+    let sql = `INSERT INTO coupon(active, name, code, discount) VALUE(${req.body.active}, "${req.body.name}", "${req.body.code}", ${req.body.discount})`
 
     return new Promise((resolve, reject) => {
         connection.query(sql, (err, rows, fields) => {
             if(err)
                 reject(err)
 
-            let result
-            if(rows.affectedRows > 0 )
-                result = {code: 200, message: 'Cupom excluido com sucesso!'}
-            else 
-                result = {code: 200, message: 'Nenhum cupom encontrado'}
-
-            resolve(result)
+            resolve(rows)
         })
     })
 }
 
-const deleteCoupon = (req) => {
+model.editCoupon = (req) => {
+    let sql = `UPDATE coupon SET active = ${req.body.active}, name = "${req.body.active}", code = "${req.body.active}", discount = ${req.body.active} WHERE id = ${req.params.id}`
+
+    return new Promise((resolve, reject) => {
+        connection.query(sql, (err, rows, fields) => {
+            if(err)
+                reject(err)
+
+            resolve(rows)
+        })
+    })
+}
+
+model.deleteCoupon = (req) => {
     let sql = "DELETE FROM coupon WHERE id = " + req.params.id
 
     return new Promise((resolve, reject) => {
@@ -48,8 +57,4 @@ const deleteCoupon = (req) => {
     })
 }
 
-module.exports = {
-    listCoupon,
-    editCoupon,
-    deleteCoupon,
-}
+module.exports = model
