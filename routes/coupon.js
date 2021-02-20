@@ -1,15 +1,15 @@
 const express = require('express')
 const router = express.Router()
 const model = require('../models/coupon')
+const jwt = require('jsonwebtoken')
 
-router.get('/cupon', (req, res) => {
+router.get('/cupon',  (req, res) => {
     model.listCoupon(req).then(result => {
         res.json(result)
     })
 })
 
 router.put('/cupon', (req, res) => {
-    console.log(req.body)
     model.saveCoupon(req).then(result => {
         res.json(result)
     })

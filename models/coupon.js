@@ -2,11 +2,12 @@ var connection = require('../db-connection')
 
 const model = {}
 
-model.listCoupon = (req) => {
+model.listCoupon = () => {
     return new Promise((resolve, reject) => {
         connection.query('SELECT id, active, name, code, discount FROM coupon', (err, rows, fields) => {
             if(err)
                 reject(err)
+
             resolve(rows)
         })
     })
@@ -46,7 +47,13 @@ model.deleteCoupon = (req) => {
             if(err)
                 reject(err)
 
-            resolve(rows)
+            const result = {}
+            if(rows.affectedRows > 0) {
+                result.status = "success"
+                result.message = "Excluido com sucesso!"
+            }
+
+            resolve(result)
         })
     })
 }
