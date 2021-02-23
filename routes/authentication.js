@@ -3,8 +3,14 @@ const express = require('express')
 const router = express.Router()
 const jwt = require('jsonwebtoken')
 
-router.post('/login', (req, res, next) => {
-    connection.query(`SELECT  id, name, password FROM user WHERE name = '${req.body.name}' AND password = '${req.body.password}'`, (err, rows, fields) => {
+router.post('/login', (req, res) => {
+
+    let sql = `SELECT  id FROM user WHERE login = '${req.body.login}' AND password = '${req.body.password}'`
+
+    connection.query(sql, (err, rows, fields) => {
+
+        if(err)
+            return res.status(500).json({auth: false, message: 'Erro no servidor'})
 
         if(rows[0]) {
             const id = rows.id;
