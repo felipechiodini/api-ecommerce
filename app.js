@@ -27,8 +27,9 @@ function verifyJWT(req, res, next) {
 const app = express()
 const port = 3000
 
-const couponRouter = require('./routes/coupon')
 const authentication = require('./routes/authentication')
+const jobRouter = require('./routes/job')
+const couponRouter = require('./routes/coupon')
 
 
 app.use(function (req, res, next) {
@@ -45,6 +46,7 @@ app.use(cors())
 
 app.use('/', authentication)
 app.use('/', couponRouter)
+app.use('/', jobRouter)
 
 
 app.listen(port)
